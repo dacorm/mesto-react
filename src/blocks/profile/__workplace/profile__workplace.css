@@ -1,0 +1,28 @@
+.profile__workplace {
+    max-width: 336px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+    grid-column: -3 / -1;
+    margin: 0;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 1023px) {
+    .profile__workplace {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__workplace {
+        max-width: 282px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
