@@ -48,7 +48,13 @@ function App() {
                     onCardClick={handleCardClick}
                 />
                 <Footer/>
-                <PopupWithForm title={'Редактировать профиль'} name={'profile'} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+                <PopupWithForm
+                    title={'Редактировать профиль'}
+                    name={'profile'}
+                    isOpen={isEditProfilePopupOpen}
+                    onClose={closeAllPopups}
+                    btnText={'Сохранить'}
+                >
                     <fieldset className="form">
                         <label className="form__input-label">
                             <input type="text" className="form__input" placeholder="Ваше Имя"
@@ -63,7 +69,13 @@ function App() {
                         </label>
                     </fieldset>
                 </PopupWithForm>
-                <PopupWithForm title={'Новое место'} name={'place'} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+                <PopupWithForm
+                    title={'Новое место'}
+                    name={'place'}
+                    isOpen={isAddPlacePopupOpen}
+                    onClose={closeAllPopups}
+                    btnText={'Сохранить'}
+                >
                     <fieldset className="form">
                         <label className="form__input-label">
                             <input type="text" className="form__input" placeholder="Название" id="name"
@@ -79,10 +91,19 @@ function App() {
                     </fieldset>
                 </PopupWithForm>
                 <ImagePopup onClose={closeAllPopups} card={selectedCard} isImageOpen={isImageOpen} />
-                <PopupWithForm title={'Вы уверены?'} name={'confirm'}>
-                        <button className="popup__save-button" type="submit">Да</button>
+                <PopupWithForm
+                    title={'Вы уверены?'}
+                    name={'confirm'}
+                    btnText={'Да'}
+                >
                 </PopupWithForm>
-                <PopupWithForm name={'avatar'} title={'Обновить аватар'} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+                <PopupWithForm
+                    name={'avatar'}
+                    title={'Обновить аватар'}
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    btnText={'Сохранить'}
+                >
                     <fieldset className="form">
                         <label className="form__input-label">
                             <input type="url" className="form__input" placeholder="Ссылка на аватар" id="avatar"
