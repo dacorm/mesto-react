@@ -80,10 +80,7 @@ function App() {
                 </PopupWithForm>
                 <ImagePopup onClose={closeAllPopups} card={selectedCard} isImageOpen={isImageOpen} />
                 <PopupWithForm title={'Вы уверены?'} name={'confirm'}>
-                    <form className="popup__form" name="confirm_form" id="place_confirm" noValidate>
-                        <h2 className="popup__form-title popup__form-title_confirm">Вы уверены?</h2>
                         <button className="popup__save-button" type="submit">Да</button>
-                    </form>
                 </PopupWithForm>
                 <PopupWithForm name={'avatar'} title={'Обновить аватар'} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
                     <fieldset className="form">
