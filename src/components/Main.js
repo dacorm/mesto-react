@@ -6,7 +6,6 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike
     const profileContext = useContext(CurrentUserContext);
     const { name, avatar, about } = profileContext;
 
-    console.log(cards)
     return (
         <>
             <section className="profile">
