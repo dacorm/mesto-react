@@ -6,7 +6,7 @@ const ImagePopup = ({ onClose, card, isImageOpen }) => {
             <div className="popup__image-wrapper">
                 <button className="popup__escape-button popup__escape-button_place_image" id="image_close"
                         type="button" onClick={onClose} />
-                <img src={card.link} alt="" className="popup__image" />
+                <img src={card.link} alt={card.name} className="popup__image" />
                 <h3 className="popup__image-description">{card.name}</h3>
             </div>
         </div>

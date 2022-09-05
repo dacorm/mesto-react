@@ -14,9 +14,13 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
             name,
             about: workplace,
         });
+
+    }
+
+    useEffect(() => {
         setName('');
         setWorkplace('');
-    }
+    }, [isOpen])
 
     useEffect(() => {
         if (currentUser.name && currentUser.about) {
