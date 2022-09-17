@@ -10,8 +10,13 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import {Route, Routes } from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
+    const [isInfoToolTipOpen, setIsInfoTooltipOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -19,6 +24,8 @@ function App() {
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
+    const [isOk, setIsOk] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const fetchCards = async () => {
         try {
@@ -26,6 +33,34 @@ function App() {
             setCards(res);
         } catch (e) {
             console.warn(e)
+        }
+    }
+
+    const handleRegister = async (password, email) => {
+        try {
+            const data = await fetch('https://auth.nomoreparties.co/signup', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    password,
+                    email
+                })
+            })
+            const user = await data.json()
+            // setCurrentUser({
+            //     ...currentUser,
+            //     email: user.data.email
+            // })
+            setIsOk(true);
+            setIsInfoTooltipOpen(true);
+            // setIsLoggedIn(true);
+        } catch (e) {
+            console.warn(e);
+            setIsOk(false);
+            setIsInfoTooltipOpen(true);
+
         }
     }
 
@@ -106,6 +141,7 @@ function App() {
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
         setIsImageOpen(false);
+        setIsInfoTooltipOpen(false);
     }
 
     const handleEditAvatarClick = () => {
@@ -124,18 +160,27 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div>
                 <div className="page">
-                    <Header/>
-                    <Main
-                        onAddPlace={handleAddPlaceClick}
-                        onEditProfile={handleEditProfileClick}
-                        onEditAvatar={handleEditAvatarClick}
-                        onCardClick={handleCardClick}
-                        closePopup={closeAllPopups}
-                        cards={cards}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleDeleting}
-                    />
-                    <Footer/>
+                    <Header isLoggedIn={isLoggedIn} />
+                    <Routes>
+                        <Route path='/' element={<ProtectedRoute
+                            isLoggedIn={isLoggedIn}
+                            Component={Main}
+                            onAddPlace={handleAddPlaceClick}
+                            onEditProfile={handleEditProfileClick}
+                            onEditAvatar={handleEditAvatarClick}
+                            onCardClick={handleCardClick}
+                            closePopup={closeAllPopups}
+                            cards={cards}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleDeleting}
+                        />} />
+                        <Route path='/sign-up'
+                                        element={<Register handleRegister={handleRegister}
+                                                           isOpen={isInfoToolTipOpen} isOk={isOk} onClose={closeAllPopups} />}/>
+                        <Route path='/sign-in'
+                                        element={<Login />}/>
+                    </Routes>
+                    <Footer />
                     <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
                     <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}/>
                     <ImagePopup onClose={closeAllPopups} card={selectedCard} isImageOpen={isImageOpen}/>

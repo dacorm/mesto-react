@@ -1,0 +1,12 @@
+.register__text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    text-align: center;
+    align-self: center;
+    text-decoration: none;
+    color: #FFFFFF;
+}
