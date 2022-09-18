@@ -1,15 +1,18 @@
 import React from 'react';
 import good from '../images/good.svg';
 import bad from '../images/bad.svg';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
-const InfoToolTip = ({ onClose, isOpen, isOk }) => {
+const InfoToolTip = ({ onClose, isOpen, isOk, error }) => {
     const navigate = useNavigate()
+    const location = useLocation();
 
     const closePopup = () => {
         if (isOk) {
             onClose();
-            navigate('/sign-in')
+            if (location.pathname === '/sign-up') {
+                navigate('/sign-in')
+            }
         } else {
             onClose();
         }
@@ -25,8 +28,7 @@ const InfoToolTip = ({ onClose, isOpen, isOk }) => {
                 </>)}
                 {!isOk && (<>
                     <img src={bad} alt="Что-то пошло не так иконка" className='popup__icon'/>
-                    <p className='popup__text'>Что-то пошло не так!
-                        Попробуйте ещё раз.</p>
+                    <p className='popup__text'>{error}</p>
                 </>)}
             </div>
         </div>

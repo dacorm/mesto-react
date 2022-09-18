@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
 import {useFormAndValidation} from "../hooks/useFormAndValidation";
+import InfoToolTip from "./InfoToolTip";
 
-const Login = ({ handleLogin, isLoggedIn }) => {
+const Login = ({ handleLogin, isLoggedIn, isOk, isOpen, onClose, error }) => {
     const {values, handleChange, errors, isValid, setValues, resetForm} = useFormAndValidation({
         email: '',
         password: ''
@@ -11,11 +12,11 @@ const Login = ({ handleLogin, isLoggedIn }) => {
 
     // чтобы если пользователь просто ввел
     // /sign-in в url, его редиректило на мейн
-    // useEffect(() => {
-    //   if (isLoggedIn) {
-    //       navigate('/')
-    //   }
-    // }, [])
+    useEffect(() => {
+      if (isLoggedIn) {
+          navigate('/')
+      }
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,6 +61,7 @@ const Login = ({ handleLogin, isLoggedIn }) => {
                 </div>
                 <button className={`login__button ${isValid ? '' : 'login__button_disabled'}`} disabled={!isValid} onClick={handleSubmit}>Войти</button>
             </div>
+            <InfoToolTip isOk={isOk} isOpen={isOpen} error={error} onClose={onClose} />
         </div>
     );
 };

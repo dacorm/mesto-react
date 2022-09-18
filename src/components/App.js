@@ -28,6 +28,7 @@ function App() {
     const [isOk, setIsOk] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState('');
+    const [error, setError] = useState('');
 
     const fetchCards = async () => {
         try {
@@ -47,7 +48,7 @@ function App() {
             console.warn(e);
             setIsOk(false);
             setIsInfoTooltipOpen(true);
-
+            setError(e.error);
         }
     }
 
@@ -60,6 +61,9 @@ function App() {
             localStorage.setItem('token', token);
         } catch (e) {
             console.warn(e);
+            setIsOk(false);
+            setIsInfoTooltipOpen(true);
+            setError(e);
         }
     }
 
@@ -199,9 +203,19 @@ function App() {
                         />} />
                         <Route path='/sign-up'
                                         element={<Register handleRegister={handleRegister}
-                                                           isOpen={isInfoToolTipOpen} isOk={isOk} onClose={closeAllPopups} />}/>
+                                                           isOpen={isInfoToolTipOpen}
+                                                           isOk={isOk}
+                                                           onClose={closeAllPopups}
+                                                           error={error}
+                                        />}/>
                         <Route path='/sign-in'
-                                        element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />}/>
+                                        element={<Login handleLogin={handleLogin}
+                                                        isLoggedIn={isLoggedIn}
+                                                        isOpen={isInfoToolTipOpen}
+                                                        isOk={isOk}
+                                                        onClose={closeAllPopups}
+                                                        error={error}
+                                        />}/>
                     </Routes>
                     <Footer />
                     <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
