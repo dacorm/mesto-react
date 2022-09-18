@@ -1,30 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import PopupWithForm from "./PopupWithForm";
+import {useFormAndValidation} from "../hooks/useFormAndValidation";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
-    const [name, setName] = useState('');
-    const [link, setLink] = useState('');
-
-    const handleNameChange = (e) => {
-        setName(e.target.value)
-    }
-
-    const handleLinkChange = (e) => {
-        setLink(e.target.value)
-    }
+    const {values, handleChange, errors, isValid, setValues, resetForm} = useFormAndValidation({
+        name: '',
+        link: ''
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onAddPlace({
-            name,
-            link
-        });
+        if (isValid) {
+            onAddPlace({
+                name: values.name,
+                link: values.link
+            });
+        }
     }
 
     useEffect(() => {
-        setName('');
-        setLink('');
+        if (!isOpen) {
+            resetForm();
+        }
     }, [isOpen])
 
     return (
@@ -35,19 +33,20 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
             onClose={onClose}
             btnText={'Сохранить'}
             onSubmit={handleSubmit}
+            isValid={isValid}
         >
             <fieldset className="form">
                 <label className="form__input-label">
                     <input type="text" className="form__input" placeholder="Название" id="name"
-                           name="new_place" value={name} onChange={handleNameChange}
+                           name="name" value={values.name || ''} onChange={handleChange}
                            minLength="2" maxLength="30" required/>
-                    <span className="form__input-error name-error"/>
+                    <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>{errors.name}</span>
                 </label>
                 <label className="form__input-label">
                     <input type="url" className="form__input" placeholder="Ссылка на картинку" id="link"
-                           value={link} onChange={handleLinkChange}
-                           name="place_link" required/>
-                    <span className="form__input-error link-error"/>
+                           value={values.link || ''} onChange={handleChange}
+                           name="link" required/>
+                    <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>{errors.link}</span>
                 </label>
             </fieldset>
         </PopupWithForm>

@@ -11,9 +11,10 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {Route, Routes } from "react-router-dom";
-import Register from "./Register";
+import {register, login, auth} from "../utils/register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import Register from "./Register";
 
 function App() {
     const [isInfoToolTipOpen, setIsInfoTooltipOpen] = useState(false);
@@ -26,6 +27,7 @@ function App() {
     const [cards, setCards] = useState([]);
     const [isOk, setIsOk] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     const fetchCards = async () => {
         try {
@@ -38,24 +40,9 @@ function App() {
 
     const handleRegister = async (password, email) => {
         try {
-            const data = await fetch('https://auth.nomoreparties.co/signup', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    password,
-                    email
-                })
-            })
-            const user = await data.json()
-            // setCurrentUser({
-            //     ...currentUser,
-            //     email: user.data.email
-            // })
+            await register(password, email)
             setIsOk(true);
             setIsInfoTooltipOpen(true);
-            // setIsLoggedIn(true);
         } catch (e) {
             console.warn(e);
             setIsOk(false);
@@ -63,6 +50,42 @@ function App() {
 
         }
     }
+
+    const handleLogin = async (password, email) => {
+        try {
+            const { token } = await login(password, email);
+            const { data } = await auth(token);
+            setUserEmail(data.email);
+            setIsLoggedIn(true);
+            localStorage.setItem('token', token);
+        } catch (e) {
+            console.warn(e);
+        }
+    }
+
+    const logout = () => {
+            localStorage.removeItem('token');
+            setUserEmail('');
+            setIsLoggedIn(false);
+    }
+
+    const checkToken = async () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const { data } = await auth(token);
+                setUserEmail(data.email);
+                setIsLoggedIn(true);
+            } catch (e) {
+                console.warn(e);
+                setIsLoggedIn(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        checkToken();
+    }, [])
 
     const handleCardLike = async (card) => {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -160,7 +183,7 @@ function App() {
         <CurrentUserContext.Provider value={currentUser}>
             <div>
                 <div className="page">
-                    <Header isLoggedIn={isLoggedIn} />
+                    <Header email={userEmail} logout={logout} />
                     <Routes>
                         <Route path='/' element={<ProtectedRoute
                             isLoggedIn={isLoggedIn}
@@ -178,7 +201,7 @@ function App() {
                                         element={<Register handleRegister={handleRegister}
                                                            isOpen={isInfoToolTipOpen} isOk={isOk} onClose={closeAllPopups} />}/>
                         <Route path='/sign-in'
-                                        element={<Login />}/>
+                                        element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />}/>
                     </Routes>
                     <Footer />
                     <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUserUpdate} />
