@@ -1,0 +1,4 @@
+.burger__line_first {
+    transform-origin: 0% 0%;
+    transition: transform 0.4s ease-in-out;
+}

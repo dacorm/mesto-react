@@ -1,0 +1,9 @@
+.burger {
+    height: 26px;
+    width: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-right: 30px;
+}

@@ -58,4 +58,14 @@
 @import url(./blocks/header/__link/header__link.css);
 @import url(./blocks/header/__text/header__text.css);
 @import url(./blocks/header/__wrapper/header__wrapper.css);
-
+@import url(./blocks/burger/burger.css);
+@import url(./blocks/burger/__line/burger__line.css);
+@import url(./blocks/burger/__line/_first/burger__line_first.css);
+@import url(./blocks/burger/__line/_first/_opened/burger__line_first_opened.css);
+@import url(./blocks/burger/__line/_second/burger__line_second.css);
+@import url(./blocks/burger/__line/_second/_opened/burger__line_second_opened.css);
+@import url(./blocks/burger/__line/_third/burger__line_third.css);
+@import url(./blocks/burger/__line/_third/_opened/burger__line_third_opened.css);
+@import url(./blocks/header/__link/_visible/header__link_invisible.css);
+@import url(./blocks/header/__popup/header__popup.css);
+@import url(./blocks/header/__popup-text/header__popup-text.css);

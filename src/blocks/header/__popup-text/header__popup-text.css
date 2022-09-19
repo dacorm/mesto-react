@@ -1,4 +1,4 @@
-.header__text {
+.header__popup-text {
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
@@ -8,10 +8,5 @@
     text-align: right;
 
     color: #FFFFFF;
-}
-
-@media screen and (max-width: 767px) {
-    .header__text {
-        display: none;
-    }
+    margin: 40px 0 18px 0;
 }

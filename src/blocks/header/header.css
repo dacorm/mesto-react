@@ -17,7 +17,8 @@
 
 @media screen and (max-width: 767px) {
     .header {
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         height: 56px;
     }
 }
