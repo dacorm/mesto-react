@@ -1,9 +1,15 @@
 .burger {
     height: 26px;
     width: 32px;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
     padding-right: 30px;
+}
+
+@media screen and (max-width: 767px) {
+    .burger {
+        display: flex;
+    }
 }
